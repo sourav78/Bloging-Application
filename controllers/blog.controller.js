@@ -13,7 +13,7 @@ const addNewBlog = async (req, res) => {
         createBy: req.user.id,
     })
 
-    return res.redirect(`/`)
+    return res.redirect(`/blog/${blog._id}`)
 }
 
 module.exports = {

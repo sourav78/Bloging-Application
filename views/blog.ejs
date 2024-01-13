@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Add Blogs</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-4">
+        <img src="<%=blog.coverImageUrl%>" alt="sss">
+        <h1><%=blog.title%></h1><br><br>
+        <pre><%=blog.body%></pre>
+    </div>
+
+    <div class="container">
+        <img src="./images/default.png" alt="ssss"> <%=blog.createBy.fullName%>
+    </div>
+
+    <%- include('./partials/scripts') %>
+</body>
+
+</html>

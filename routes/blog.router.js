@@ -3,6 +3,7 @@ const multer = require('multer')
 const path = require('path')
 
 const { addNewBlog } = require("../controllers/blog.controller");
+const blogModel = require("../models/blog.models");
 
 const router = Router()
 
@@ -19,10 +20,17 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.get("/add-new", (req, res) => {
-
-    // console.log(req.user);
     return res.render("addBlogs", {
         user: req.user
+    })
+})
+
+router.get("/:id", async (req, res) => {
+    const blog = await blogModel.findById(req.params.id).populate("createBy")
+    console.log(blog);
+    return res.render("blog", {
+        user: req.user,
+        blog
     })
 })
 
