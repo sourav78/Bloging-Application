@@ -19,8 +19,6 @@ const userSignin = async (req, res) => {
     try {
         const token = await userModel.matchPasswordAndCreateToken(email, password)
 
-        // console.log(token);
-
         return res.cookie("token", token).redirect("/")
     } catch (error) {
         return res.render("signin", {
