@@ -7,6 +7,7 @@ const userRoute = require("./routes/users.rouer")
 const blogRoute = require("./routes/blog.router")
 const { databaseConnect } = require('./config/db.config')
 const jwtAuth = require('./middleware/auth.middleware')
+const blogModel = require('./models/blog.models')
 
 const app = express()
 
@@ -15,15 +16,18 @@ databaseConnect()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 app.use(cookieParser())
+app.use(express.static(path.resolve('./public')))
 
 app.set("view engine", "ejs")
 app.set("views", path.resolve("./views"))
 
-app.get("/", jwtAuth, (req, res) => {
-
-    console.log(req.user);
+app.get("/", jwtAuth, async (req, res) => {
+    const allBlogs = await blogModel.find({})
+    console.log(allBlogs);
+    // console.log(req.user);
     res.render("home", {
-        user: req.user
+        user: req.user,
+        blogs: allBlogs
     })
 })
 
