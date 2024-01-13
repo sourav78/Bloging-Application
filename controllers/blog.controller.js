@@ -1,8 +1,6 @@
 const blogModel = require("../models/blog.models");
 
 const addNewBlog = async (req, res) => {
-    // console.log(req.body);
-    // console.log(req.file);
 
     const { title, body } = req.body
 

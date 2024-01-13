@@ -23,7 +23,6 @@ app.set("views", path.resolve("./views"))
 
 app.get("/", jwtAuth, async (req, res) => {
     const allBlogs = await blogModel.find({})
-    // console.log(req.user);
     res.render("home", {
         user: req.user,
         blogs: allBlogs
