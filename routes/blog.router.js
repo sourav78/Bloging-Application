@@ -4,6 +4,7 @@ const path = require('path')
 
 const { addNewBlog } = require("../controllers/blog.controller");
 const blogModel = require("../models/blog.models");
+const commentModel = require("../models/comments.models");
 
 const router = Router()
 
@@ -27,11 +28,23 @@ router.get("/add-new", (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const blog = await blogModel.findById(req.params.id).populate("createBy")
-    console.log(blog);
+    const comments = await commentModel.find({ bolgId: req.params.id}).populate("createBy")
+    console.log(comments);
     return res.render("blog", {
         user: req.user,
-        blog
+        blog,
+        comments
     })
+})
+
+router.post("/comment/:blogId", (req, res) => {
+    commentModel.create({
+        content: req.body.content,
+        bolgId: req.params.blogId,
+        createBy: req.user.id 
+    })
+
+    return res.redirect(`/blog/${req.params.blogId}`)
 })
 
 router.post("/", upload.single('coverImage'), addNewBlog)

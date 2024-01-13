@@ -15,8 +15,29 @@
         <pre><%=blog.body%></pre>
     </div>
 
-    <div class="container">
+    <div class="container mt-3">
         <img src="./images/default.png" alt="ssss"> <%=blog.createBy.fullName%>
+    </div>
+
+    <div class="container mt-3">
+        <h1>Comments (<%= comments.length %>)</h1>
+        <% if (locals.user) { %>
+            <form action="/blog/comment/<%= blog._id %>" method="post">
+                <div class="mb-3">
+                    <input type="text" name="content" class="form-control" aria-describedby="emailHelp" placeholder="Leave your comment here">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+            <div class="mt-4">
+                <% comments.forEach(comment => { %>
+                    <div>
+                        <img src="../public/images/default.jpg" alt="">
+                        <h5><%= comment.createBy.fullName %> : <%= comment.content %></h5>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
     </div>
 
     <%- include('./partials/scripts') %>
