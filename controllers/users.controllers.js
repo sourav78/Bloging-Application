@@ -2,7 +2,7 @@ const express = require("express")
 const userModel = require("../models/users")
 
 const userSignup = async (req, res) => {
-    const { fullName, email, password} = req.body
+    const { fullName, email, password } = req.body
 
     await userModel.create({
         fullName,
@@ -16,11 +16,17 @@ const userSignup = async (req, res) => {
 const userSignin = async (req, res) => {
     const { email, password } = req.body
 
-    const user = await userModel.matchPassword(email, password)
+    try {
+        const token = await userModel.matchPasswordAndCreateToken(email, password)
 
-    console.log(user);
+        // console.log(token);
 
-    return res.redirect("/")
+        return res.cookie("token", token).redirect("/")
+    } catch (error) {
+        return res.render("signin", {
+            error: "Incorrect email and password"
+        })
+    }
 }
 
 
